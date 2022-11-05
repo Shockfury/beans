@@ -236,6 +236,8 @@ function interface:create(title)
 		addSection.Parent = Scrolling
 		addSection.Text = string
 		addSection.Name = string
+
+		return createSection;
 	end
 
 	function createToggle(value)
@@ -263,7 +265,7 @@ function interface:create(title)
 		addButton.Parent = Scrolling
 		addButton.ButtonLayer.ButtonFunction.Text = value.ButtonLayer.ButtonFunction
 	end
-	return createSection, InputedToggles, InputedButtons;
+	return InputedToggles;
 end
 
 return interface;
