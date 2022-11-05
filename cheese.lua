@@ -229,43 +229,15 @@ function interface:create(title)
 	ButtonFunction.TextColor3 = Color3.fromRGB(255, 255, 255)
 	ButtonFunction.TextSize = 14.000
 
-	section = {}
+	local createSection = {}
 
-	function section:new(string)
+	function createSection(string)
 		local addSection = Section:Clone()
 		addSection.Parent = Scrolling
 		addSection.Text = string
 		addSection.Name = string
-
-		return section;
 	end
-
-	function createToggle(value)
-		InputedToggles = {}
-
-		table.insert(InputedToggles, value)
-	end
-
-	function createButton(value)
-		InputedButtons = {}
-
-		table.insert(InputedButtons, value)
-	end
-
-	for _,value in pairs(InputedToggles) do
-		local addToggle = Toggle:Clone()
-		addToggle.Parent = Scrolling
-		addToggle.Description.Text = value.Description
-		addToggle.FunctionTitle.Text = value.FunctionTitle
-		addToggle.CallbackContainer.Circle.ToggleCallback.Text = value.CallbackContainer.Circle.ToggleCallback
-	end
-
-	for _,value in pairs(InputedButtons) do
-		local addButton = Button:Clone()
-		addButton.Parent = Scrolling
-		addButton.ButtonLayer.ButtonFunction.Text = value.ButtonLayer.ButtonFunction
-	end
-	return InputedToggles;
+    return createSection;
 end
 
 return interface;
