@@ -229,6 +229,8 @@ function interface:create(title)
 	ButtonFunction.TextColor3 = Color3.fromRGB(255, 255, 255)
 	ButtonFunction.TextSize = 14.000
 
+	local createSection = {}
+
 	function createSection(string)
 		local addSection = Section:Clone()
 		addSection.Parent = Scrolling
@@ -261,4 +263,7 @@ function interface:create(title)
 		addButton.Parent = Scrolling
 		addButton.ButtonLayer.ButtonFunction.Text = value.ButtonLayer.ButtonFunction
 	end
+	return createSection, createToggle, createButton;
 end
+
+return interface;
