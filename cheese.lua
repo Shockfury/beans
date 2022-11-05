@@ -263,7 +263,7 @@ function interface:create(title)
 		addButton.Parent = Scrolling
 		addButton.ButtonLayer.ButtonFunction.Text = value.ButtonLayer.ButtonFunction
 	end
-	return createSection, createToggle, createButton;
+	return createSection, InputedToggles, InputedButtons;
 end
 
 return interface;
