@@ -229,7 +229,7 @@ function interface:create(title)
 	ButtonFunction.TextColor3 = Color3.fromRGB(255, 255, 255)
 	ButtonFunction.TextSize = 14.000
 
-	local section = {}
+	section = {}
 
 	function section:new(string)
 		local addSection = Section:Clone()
