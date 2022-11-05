@@ -229,15 +229,24 @@ function interface:create(title)
 	ButtonFunction.TextColor3 = Color3.fromRGB(255, 255, 255)
 	ButtonFunction.TextSize = 14.000
 
-	local createSection = {}
+	local objectInputed = {}
 
-	function createSection:new(string)
+    function objectInputed:createSection(string)
 		local addSection = Section:Clone()
+        
 		addSection.Parent = Scrolling
 		addSection.Text = string
 		addSection.Name = string
 	end
-    return createSection;
+
+    function objectInputed:createButton(title, func)
+        local addButton = Button:Clone()
+
+        addButton.Parent = Scrolling
+        addButton.ButtonLayer.ButtonFunction.Text = title
+        addButton.ButtonLayer.ButtonFunction.MouseButton1Down:Connect(func)
+    end
+    return objectInputed;
 end
 
 return interface;
