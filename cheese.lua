@@ -231,7 +231,7 @@ function interface:create(title)
 
 	local createSection = {}
 
-	function createSection(string)
+	function createSection:new(string)
 		local addSection = Section:Clone()
 		addSection.Parent = Scrolling
 		addSection.Text = string
