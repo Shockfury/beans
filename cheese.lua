@@ -65,15 +65,14 @@ function interface:create(title)
 	local ButtonLayer = Instance.new("Frame")
 	local UICorner_3 = Instance.new("UICorner")
 	local ButtonFunction = Instance.new("TextButton")
-
-
+	local Pattern = Instance.new("ImageLabel")
 
 	ScreenGui.Parent = game.CoreGui
 	ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 	Main.Name = "Main"
 	Main.Parent = ScreenGui
-	Main.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
+	Main.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
 	Main.BorderColor3 = Color3.fromRGB(255, 255, 255)
 	Main.Position = UDim2.new(0.506578982, 0, 0.390274316, 0)
 	Main.Size = UDim2.new(0, 270, 0, 220)
@@ -229,6 +228,21 @@ function interface:create(title)
 	ButtonFunction.TextColor3 = Color3.fromRGB(255, 255, 255)
 	ButtonFunction.TextSize = 14.000
 
+	Pattern.Name = "Pattern"
+	Pattern.Parent = Main
+	Pattern.AnchorPoint = Vector2.new(0.5, 0.5)
+	Pattern.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Pattern.BackgroundTransparency = 1.000
+	Pattern.Position = UDim2.new(0.499073833, 0, 0.5, 0)
+	Pattern.Size = UDim2.new(0, 270, 0, 220)
+	Pattern.ZIndex = 0
+	Pattern.Image = "rbxassetid://2151782136"
+	Pattern.ImageColor3 = Color3.fromRGB(0, 0, 0)
+	Pattern.ImageTransparency = 0.600
+	Pattern.ScaleType = Enum.ScaleType.Tile
+	Pattern.SliceCenter = Rect.new(0, 256, 0, 256)
+	Pattern.TileSize = UDim2.new(0, 30, 0, 50)
+
 	local objectInputed = {}
 
     function objectInputed:createSection(string)
@@ -239,6 +253,68 @@ function interface:create(title)
 		addSection.Name = string
 	end
 
+	function objectInputed:createToggle(title, desc, callback)
+        callback = callback or function() end
+
+        local toggleCallback = true
+        local debounceTime = false
+
+		local addToggle = Toggle:Clone()
+		
+		addToggle.Parent = Scrolling
+		addToggle.FunctionTitle.Text = title
+		addToggle.Description.Text = desc
+    
+        addToggle.CallbackContainer.Circle.ToggleCallback.MouseButton1Down:Connect(function()
+            if debounceTime == false then
+                if toggleCallback == true then
+                    debounceTime = true
+
+                    TweenService = game:GetService("TweenService")
+
+                    local tweeningTable = {}
+                    tweeningTable.AnchorPoint = Vector2.new(1,0)
+                    tweeningTable.Position = UDim2.new(1,0,0,0)
+
+                    TweenService:Create(addToggle.CallbackContainer.Circle, TweenInfo.new(0.25), tweeningTable):Play()
+
+                    local tweeningTable = {}
+                    tweeningTable.BackgroundColor3 =Color3.fromRGB(225, 92, 225)
+
+                    TweenService:Create(addToggle.CallbackContainer, TweenInfo.new(0.25), tweeningTable):Play()
+
+                    task.wait(0.1)
+
+                    debounceTime = false
+                    toggleCallback = false
+
+                    pcall(callback, true) 
+
+                elseif toggleCallback == false then 
+                    debounceTime = true
+
+                    local tweeningTable = {}
+                    tweeningTable.AnchorPoint = Vector2.new(0,0)
+                    tweeningTable.Position = UDim2.new(0,0,0,0)
+
+                    TweenService:Create(addToggle.CallbackContainer.Circle, TweenInfo.new(0.25), tweeningTable):Play()
+
+                    local tweeningTable = {}
+                    tweeningTable.BackgroundColor3 =Color3.fromRGB(255, 255, 225)
+
+                    TweenService:Create(addToggle.CallbackContainer, TweenInfo.new(0.25), tweeningTable):Play()
+
+                    task.wait(0.1)
+
+                    debounceTime = false
+                    toggleCallback = true
+
+                    pcall(callback, false)
+                end
+            end
+        end)
+    end
+
     function objectInputed:createButton(title, func)
         local addButton = Button:Clone()
 
@@ -246,6 +322,7 @@ function interface:create(title)
         addButton.ButtonLayer.ButtonFunction.Text = title
         addButton.ButtonLayer.ButtonFunction.MouseButton1Down:Connect(func)
     end
+    
     return objectInputed;
 end
 
