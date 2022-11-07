@@ -41,6 +41,10 @@ end
 
 local interface = {}
 
+function interface:importColor(R, G, B)
+	redValue, greenValue, blueValue = tonumber(R), tonumber(G), tonumber(B)
+end
+
 function interface:create(title)
 	local ScreenGui = Instance.new("ScreenGui")
 	local Main = Instance.new("Frame")
@@ -66,6 +70,8 @@ function interface:create(title)
 	local UICorner_3 = Instance.new("UICorner")
 	local ButtonFunction = Instance.new("TextButton")
 	local Pattern = Instance.new("ImageLabel")
+	local ToggleInterface = Instance.new("TextButton")
+
 
 	ScreenGui.Parent = game.CoreGui
 	ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -73,9 +79,10 @@ function interface:create(title)
 	Main.Name = "Main"
 	Main.Parent = ScreenGui
 	Main.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
-	Main.BorderColor3 = Color3.fromRGB(255, 255, 255)
+	Main.BorderColor3 = Color3.fromRGB(redValue, greenValue, blueValue)
 	Main.Position = UDim2.new(0.506578982, 0, 0.390274316, 0)
-	Main.Size = UDim2.new(0, 270, 0, 220)
+	Main.Size = UDim2.new(0, 270, 0, 230)
+	Main.ClipsDescendants = true
 
 	Dragify(Main)
 
@@ -99,7 +106,7 @@ function interface:create(title)
 	Icon.Name = "Icon"
 	Icon.Parent = Main
 	Icon.BackgroundTransparency = 1.000
-	Icon.Position = UDim2.new(0, 12, 0, 7)
+	Icon.Position = UDim2.new(0, 12, 0, 5)
 	Icon.Rotation = 180.000
 	Icon.Size = UDim2.new(0, 25, 0, 25)
 	Icon.ZIndex = 2
@@ -114,8 +121,9 @@ function interface:create(title)
 	Scrolling.BackgroundTransparency = 1.000
 	Scrolling.BorderSizePixel = 0
 	Scrolling.Position = UDim2.new(0, 0, 0, 40)
-	Scrolling.Size = UDim2.new(0, 270, 0, 180)
+	Scrolling.Size = UDim2.new(0, 270, 0, 190)
 	Scrolling.ScrollBarThickness = 3
+
 
 	Section.Name = "Section"
 	Section.Parent = nil
@@ -124,7 +132,7 @@ function interface:create(title)
 	Section.BorderSizePixel = 0
 	Section.Size = UDim2.new(0, 270, 0, 25)
 	Section.Font = Enum.Font.GothamBold
-	Section.TextColor3 = Color3.fromRGB(255, 255, 255)
+	Section.TextColor3 = Color3.fromRGB(redValue, greenValue, blueValue)
 	Section.TextSize = 12.000
 	Section.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -177,7 +185,7 @@ function interface:create(title)
 
 	CallbackContainer.Name = "CallbackContainer"
 	CallbackContainer.Parent = Toggle
-	CallbackContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	CallbackContainer.BackgroundColor3 = Color3.fromRGB(37, 37, 37)
 	CallbackContainer.Position = UDim2.new(0, 210, 0, 20)
 	CallbackContainer.Size = UDim2.new(0, 50, 0, 25)
 
@@ -234,7 +242,7 @@ function interface:create(title)
 	Pattern.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	Pattern.BackgroundTransparency = 1.000
 	Pattern.Position = UDim2.new(0.499073833, 0, 0.5, 0)
-	Pattern.Size = UDim2.new(0, 270, 0, 220)
+	Pattern.Size = UDim2.new(0, 270, 0, 230)
 	Pattern.ZIndex = 0
 	Pattern.Image = "rbxassetid://2151782136"
 	Pattern.ImageColor3 = Color3.fromRGB(0, 0, 0)
@@ -242,6 +250,79 @@ function interface:create(title)
 	Pattern.ScaleType = Enum.ScaleType.Tile
 	Pattern.SliceCenter = Rect.new(0, 256, 0, 256)
 	Pattern.TileSize = UDim2.new(0, 30, 0, 50)
+
+	ToggleInterface.Name = "ToggleInterface"
+	ToggleInterface.Parent = Icon
+	ToggleInterface.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	ToggleInterface.BackgroundTransparency = 1.000
+	ToggleInterface.BorderSizePixel = 0
+	ToggleInterface.Size = UDim2.new(0, 25, 0, 25)
+	ToggleInterface.ZIndex = 2
+	ToggleInterface.Font = Enum.Font.SourceSans
+	ToggleInterface.Text = ""
+	ToggleInterface.TextColor3 = Color3.fromRGB(0, 0, 0)
+	ToggleInterface.TextSize = 14.000
+
+	ToggleInterface.MouseButton1Down:Connect(function()
+
+		local tweenService = game:GetService("TweenService")
+
+		local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.Out, 0, false, 0)
+
+		local debounceTime = false
+
+		if debounceTime == false then
+			if Main.Size == UDim2.new(0, 270, 0, 230) then
+				debounceTime = true
+
+				Main:TweenSize(UDim2.new(0, 270, 0, 35), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.25, false)
+				tweenService:Create(Icon, tweenInfo, {Rotation = 90}):Play()
+				
+				task.wait(0.5)
+
+				debounceTime = false
+			elseif Main.Size == UDim2.new(0, 270, 0, 35) then
+				debounceTime = true
+
+				Main:TweenSize(UDim2.new(0, 270, 0, 230), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.25, false)
+				tweenService:Create(Icon, tweenInfo, {Rotation = 180}):Play()
+
+				task.wait(0.5)
+
+				debounceTime = false
+			end
+		end
+	end)
+
+	ToggleInterface.MouseEnter:Connect(function()
+		local tweenService = game:GetService("TweenService")
+
+		local Info = TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0)
+
+		local Goal = {}
+		Goal.ImageColor3 = Color3.fromRGB(redValue, greenValue, blueValue)
+
+		tweenService:Create(Icon, Info, Goal):Play()
+	end) 
+
+	ToggleInterface.MouseLeave:Connect(function()
+		local tweenService = game:GetService("TweenService")
+
+		local Info = TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0)
+
+		local Goal = {}
+		Goal.ImageColor3 = Color3.fromRGB(255, 255, 255)
+
+		tweenService:Create(Icon, Info, Goal):Play()
+	end) 
+
+    function scaleScrolling()
+        local sizeThing = UIListLayout.AbsoluteContentSize
+
+        Scrolling.CanvasSize = UDim2.new(0, 0, 0, sizeThing.Y)
+    end
+
+    UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(scaleScrolling)
 
 	local objectInputed = {}
 
@@ -270,18 +351,20 @@ function interface:create(title)
                 if toggleCallback == true then
                     debounceTime = true
 
-                    TweenService = game:GetService("TweenService")
+                    local tweenService = game:GetService("TweenService")
+
+					local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0)
 
                     local tweeningTable = {}
                     tweeningTable.AnchorPoint = Vector2.new(1,0)
                     tweeningTable.Position = UDim2.new(1,0,0,0)
 
-                    TweenService:Create(addToggle.CallbackContainer.Circle, TweenInfo.new(0.25), tweeningTable):Play()
+                    tweenService:Create(addToggle.CallbackContainer.Circle, tweenInfo, tweeningTable):Play()
 
                     local tweeningTable = {}
-                    tweeningTable.BackgroundColor3 =Color3.fromRGB(225, 92, 225)
+                    tweeningTable.BackgroundColor3 = Color3.fromRGB(redValue, greenValue, blueValue)
 
-                    TweenService:Create(addToggle.CallbackContainer, TweenInfo.new(0.25), tweeningTable):Play()
+                    tweenService:Create(addToggle.CallbackContainer, tweenInfo, tweeningTable):Play()
 
                     task.wait(0.1)
 
@@ -293,16 +376,20 @@ function interface:create(title)
                 elseif toggleCallback == false then 
                     debounceTime = true
 
+					local tweenService = game:GetService("TweenService")
+
+					local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out, 0, false, 0)
+
                     local tweeningTable = {}
                     tweeningTable.AnchorPoint = Vector2.new(0,0)
                     tweeningTable.Position = UDim2.new(0,0,0,0)
 
-                    TweenService:Create(addToggle.CallbackContainer.Circle, TweenInfo.new(0.25), tweeningTable):Play()
+                    tweenService:Create(addToggle.CallbackContainer.Circle, tweenInfo, tweeningTable):Play()
 
                     local tweeningTable = {}
-                    tweeningTable.BackgroundColor3 =Color3.fromRGB(255, 255, 225)
+                    tweeningTable.BackgroundColor3 =Color3.fromRGB(37, 37, 37)
 
-                    TweenService:Create(addToggle.CallbackContainer, TweenInfo.new(0.25), tweeningTable):Play()
+                    tweenService:Create(addToggle.CallbackContainer, tweenInfo, tweeningTable):Play()
 
                     task.wait(0.1)
 
@@ -322,7 +409,7 @@ function interface:create(title)
         addButton.ButtonLayer.ButtonFunction.Text = title
         addButton.ButtonLayer.ButtonFunction.MouseButton1Down:Connect(func)
     end
-    
+
     return objectInputed;
 end
 
