@@ -520,18 +520,18 @@ function interface:create(title)
 				callback(Value)
 				addSlider.ChangingValue.Text = Value
 			end)
-			addSlider.SliderFrame:TweenSize(UDim2.new(0, math.clamp(mouse.X - addSlider.SliderFrame.AbsolutePosition.X, 0, 252), 0, 16), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.07, false)
+			addSlider.SliderFrame:TweenSize(UDim2.new(0, math.clamp(mouse.X - addSlider.SliderFrame.AbsolutePosition.X, 0, 252), 0, 16), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 1.5, false)
 			moveconnection = mouse.Move:Connect(function()
 				addSlider.ChangingValue.Text = Value
 				Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 252) * addSlider.SliderFrame.AbsoluteSize.X) + tonumber(minvalue))
 				pcall(callback, Value)
-				addSlider.SliderFrame:TweenSize(UDim2.new(0, math.clamp(mouse.X - addSlider.SliderFrame.AbsolutePosition.X, 0, 252), 0, 16), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.07, false)
+				addSlider.SliderFrame:TweenSize(UDim2.new(0, math.clamp(mouse.X - addSlider.SliderFrame.AbsolutePosition.X, 0, 252), 0, 16), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 1.5, false)
 			end)
 			releaseconnection = uis.InputEnded:Connect(function(Mouse)
 				if Mouse.UserInputType == Enum.UserInputType.MouseButton1 then
 					Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 252) * addSlider.SliderFrame.AbsoluteSize.X) + tonumber(minvalue))
                     pcall(callback, Value)
-					addSlider.SliderFrame:TweenSize(UDim2.new(0, math.clamp(mouse.X - addSlider.SliderFrame.AbsolutePosition.X, 0, 252), 0, 16), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.07, false)
+					addSlider.SliderFrame:TweenSize(UDim2.new(0, math.clamp(mouse.X - addSlider.SliderFrame.AbsolutePosition.X, 0, 252), 0, 16), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 1.5, false)
 					moveconnection:Disconnect()
 					releaseconnection:Disconnect()
 				end
