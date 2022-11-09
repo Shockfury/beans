@@ -72,6 +72,18 @@ function interface:create(title)
 	local Pattern = Instance.new("ImageLabel")
 	local ToggleInterface = Instance.new("TextButton")
 
+	local Slider = Instance.new("Frame")
+	local Outline = Instance.new("Frame")
+	local UICorner3 = Instance.new("UICorner")
+	local SliderFrame = Instance.new("Frame")
+	local UICorner4 = Instance.new("UICorner")
+	local SliderTitle = Instance.new("TextLabel")
+	local UIPadding8 = Instance.new("UIPadding")
+	local ChangingValue = Instance.new("TextLabel")
+	local UIPadding7 = Instance.new("UIPadding")
+	local SliderButton = Instance.new("TextButton")
+	local OuterSlider = Instance.new("Frame")
+	local UICorner2 = Instance.new("UICorner")
 
 	ScreenGui.Parent = game.CoreGui
 	ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -251,6 +263,91 @@ function interface:create(title)
 	Pattern.SliceCenter = Rect.new(0, 256, 0, 256)
 	Pattern.TileSize = UDim2.new(0, 30, 0, 50)
 
+	Slider.Name = "Slider"
+	Slider.Parent = nil
+	Slider.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
+	Slider.BorderSizePixel = 0
+	Slider.Position = UDim2.new(0, 0, 0.176470593, 0)
+	Slider.Size = UDim2.new(0, 270, 0, 50)
+
+	Outline.Name = "Outline"
+	Outline.Parent = Slider
+	Outline.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+	Outline.Position = UDim2.new(0, 5, 0, 27)
+	Outline.Size = UDim2.new(0, 258, 0, 20)
+
+	UICorner3.CornerRadius = UDim.new(0, 7)
+	UICorner3.Name = "UICorner3"
+	UICorner3.Parent = Outline
+
+	SliderFrame.Name = "SliderFrame"
+	SliderFrame.Parent = Slider
+	SliderFrame.BackgroundColor3 = Color3.fromRGB(redValue, greenValue, blueValue)
+	SliderFrame.Position = UDim2.new(0, 8, 0, 29)
+	SliderFrame.Size = UDim2.new(0, 0, 0, 16)
+	SliderFrame.ZIndex = 2
+
+	UICorner4.CornerRadius = UDim.new(0, 7)
+	UICorner4.Name = "UICorner4"
+	UICorner4.Parent = SliderFrame
+
+	SliderTitle.Name = "SliderTitle"
+	SliderTitle.Parent = Slider
+	SliderTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	SliderTitle.BackgroundTransparency = 1.000
+	SliderTitle.BorderSizePixel = 0
+	SliderTitle.Size = UDim2.new(0, 270, 0, 25)
+	SliderTitle.Font = Enum.Font.GothamMedium
+	SliderTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+	SliderTitle.TextSize = 14.000
+	SliderTitle.TextXAlignment = Enum.TextXAlignment.Left
+
+	UIPadding8.Name = "UIPadding8"
+	UIPadding8.Parent = SliderTitle
+	UIPadding8.PaddingLeft = UDim.new(0, 5)
+	UIPadding8.PaddingTop = UDim.new(0, 5)
+
+	ChangingValue.Name = "ChangingValue"
+	ChangingValue.Parent = Slider
+	ChangingValue.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	ChangingValue.BackgroundTransparency = 1.000
+	ChangingValue.BorderSizePixel = 0
+	ChangingValue.Position = UDim2.new(0, 225, 0, 0)
+	ChangingValue.Size = UDim2.new(0, 45, 0, 25)
+	ChangingValue.Font = Enum.Font.Gotham
+	ChangingValue.TextColor3 = Color3.fromRGB(138, 138, 138)
+	ChangingValue.TextSize = 14.000
+    ChangingValue.Text = ""
+
+	UIPadding7.Name = "UIPadding7"
+	UIPadding7.Parent = ChangingValue
+	UIPadding7.PaddingLeft = UDim.new(0, 5)
+	UIPadding7.PaddingTop = UDim.new(0, 5)
+
+	SliderButton.Name = "SliderButton"
+	SliderButton.Parent = Slider
+	SliderButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	SliderButton.BackgroundTransparency = 1.000
+	SliderButton.BorderSizePixel = 0
+	SliderButton.Position = UDim2.new(0, 5, 0, 27)
+	SliderButton.Size = UDim2.new(0, 255, 0, 20)
+	SliderButton.SizeConstraint = Enum.SizeConstraint.RelativeXX
+	SliderButton.Font = Enum.Font.SourceSans
+	SliderButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+	SliderButton.TextSize = 14.000
+	SliderButton.Text = ""
+
+	OuterSlider.Name = "OuterSlider"
+	OuterSlider.Parent = Slider
+	OuterSlider.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
+	OuterSlider.BorderSizePixel = 0
+	OuterSlider.Position = UDim2.new(0, 8, 0, 29)
+	OuterSlider.Size = UDim2.new(0, 252, 0, 16)
+
+	UICorner2.CornerRadius = UDim.new(0, 7)
+	UICorner2.Name = "UICorner2"
+	UICorner2.Parent = OuterSlider
+
 	ToggleInterface.Name = "ToggleInterface"
 	ToggleInterface.Parent = Icon
 	ToggleInterface.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -401,6 +498,46 @@ function interface:create(title)
             end
         end)
     end
+
+	function objectInputed:createSlider(title, minvalue, maxvalue, callback)
+		local mouse = game.Players.LocalPlayer:GetMouse()
+		local uis = game:GetService("UserInputService")
+		local Value;
+
+		local addSlider = Slider:Clone()
+
+		addSlider.Parent = Scrolling
+		addSlider.SliderTitle.Text = title
+
+		minvalue = minvalue or 0
+		maxvalue = maxvalue or 100
+
+		callback = callback or function() end
+
+		addSlider.SliderButton.MouseButton1Down:Connect(function()
+			Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 252) * addSlider.SliderFrame.AbsoluteSize.X) + tonumber(minvalue)) or 0
+			pcall(function()
+				callback(Value)
+				addSlider.ChangingValue.Text = Value
+			end)
+			addSlider.SliderFrame:TweenSize(UDim2.new(0, math.clamp(mouse.X - addSlider.SliderFrame.AbsolutePosition.X, 0, 252), 0, 16), Enum.EasingDirection.In, Enum.EasingStyle.Sine, 0.07, false)
+			moveconnection = mouse.Move:Connect(function()
+				addSlider.ChangingValue.Text = Value
+				Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 252) * addSlider.SliderFrame.AbsoluteSize.X) + tonumber(minvalue))
+				pcall(callback, Value)
+				addSlider.SliderFrame:TweenSize(UDim2.new(0, math.clamp(mouse.X - addSlider.SliderFrame.AbsolutePosition.X, 0, 252), 0, 16), Enum.EasingDirection.Out, Enum.EasingStyle.Sine, 0.07, false)
+			end)
+			releaseconnection = uis.InputEnded:Connect(function(Mouse)
+				if Mouse.UserInputType == Enum.UserInputType.MouseButton1 then
+					Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 252) * addSlider.SliderFrame.AbsoluteSize.X) + tonumber(minvalue))
+                    pcall(callback, Value)
+					addSlider.SliderFrame:TweenSize(UDim2.new(0, math.clamp(mouse.X - addSlider.SliderFrame.AbsolutePosition.X, 0, 252), 0, 16), Enum.EasingDirection.In, Enum.EasingStyle.Sine, 0.07, false)
+					moveconnection:Disconnect()
+					releaseconnection:Disconnect()
+				end
+			end)
+		end)
+	end
 
     function objectInputed:createButton(title, func)
         local addButton = Button:Clone()
